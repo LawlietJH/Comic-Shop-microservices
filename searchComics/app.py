@@ -224,99 +224,15 @@ def getComics(words):
 #--------------------------------------------------------------
 # Rutas:
 
-# Filtro por 'name=<STR>' para obtener un personajes.
-# Filtro por 'title=<STR>&issueNumber=<INT>' para obtener un Comic.
 @app.route('/searchComics/')
-def filters():
+def showCharacters():
 
     global characters_list
 
-    if request.args:
-        
-        args = request.args
-
-        character_name = args.get('name')
-        comic_title = args.get('title')
-        issue_number = args.get('issueNumber')
-
-        if character_name:
-            
-            # Busqueda de un personaje en especifico:
-            URI = getURI() + '&name=' + character_name
-            response = requests.get(URI)
-            response_json = response.json()
-            status_code = response.status_code
-
-            if status_code == 200:
-
-                item = response_json['data']['results']
-                
-                if item:
-
-                    item = item.pop()
-
-                    character = {
-                        'id': item['id'],
-                        'name': item['name'],
-                        'image': f"{item['thumbnail']['path']}.{item['thumbnail']['extension']}",
-                        'appearances': item['comics']['available']
-                    }
-
-                    return jsonResponse(character, 200)
-
-                else:
-
-                    return jsonResponse({'message': 'Character not found'}, 404)
-            
-            else:
-
-                return jsonResponse(response_json, status_code)
-        
-        if comic_title and issue_number:
-            
-            # Busqueda de un comic en especifico:
-            URI = getURI(uri_type='comics') + f'&title={comic_title}&issueNumber={issue_number}'
-            response = requests.get(URI)
-            response_json = response.json()
-            status_code = response.status_code
-
-            if status_code == 200:
-
-                item = response_json['data']['results']
-                
-                if item:
-
-                    item = item.pop()
-                    
-                    for obj in item['dates']:
-                        if obj.get('type') == 'onsaleDate':
-                            onsaleDate = obj['date']
-
-                    comic = {
-                        'id': item['id'],
-                        'title': item['title'],
-                        'image': f"{item['thumbnail']['path']}.{item['thumbnail']['extension']}",
-                        'onsaleDate': onsaleDate
-                    }
-
-                    return jsonResponse(comic, 200)
-                
-                else:
-
-                    return jsonResponse({'message': 'Comic not found'}, 404)
-
-            else:
-                
-                return jsonResponse(response_json, status_code)
-
-        else:
-
-            return jsonResponse({'error': "The 'title' and 'issueNumber' are needed to search for a specific comic"}, 409)
-    
     if not characters_list:
         print('Log: Cargando todos los personajes...')
         characters_list = getAllCharacters()
-    
+
     return jsonResponse(characters_list, 200)
 
 @app.route('/searchComics/<string:words>')
@@ -341,6 +257,78 @@ def searchComicsAndCharacters(words):
     }
 
     return jsonResponse(data, 200)
+
+@app.route('/searchComics/character/<string:character_name>')
+def getCharacter(character_name):
+
+    if character_name:
+    
+        # Busqueda de un personaje en especifico:
+        URI = getURI() + '&name=' + character_name
+        response = requests.get(URI)
+        response_json = response.json()
+        status_code = response.status_code
+
+        if status_code == 200:
+
+            item = response_json['data']['results']
+            
+            if item:
+
+                item = item.pop()
+
+                character = {
+                    'id': item['id'],
+                    'name': item['name'],
+                    'image': f"{item['thumbnail']['path']}.{item['thumbnail']['extension']}",
+                    'appearances': item['comics']['available']
+                }
+
+                return jsonResponse(character, 200)
+
+            return jsonResponse({'message': 'Character not found'}, 404)
+        
+        return jsonResponse(response_json, status_code)
+    
+    return jsonResponse({'message': 'error'}, 400)
+
+@app.route('/searchComics/comic/<string:comic_title>/<int:issue_number>')
+def getComic(comic_title, issue_number):
+
+    if comic_title and issue_number:
+        
+        # Busqueda de un comic en especifico:
+        URI = getURI(uri_type='comics') + f'&title={comic_title}&issueNumber={issue_number}'
+        response = requests.get(URI)
+        response_json = response.json()
+        status_code = response.status_code
+
+        if status_code == 200:
+
+            item = response_json['data']['results']
+            
+            if item:
+
+                item = item.pop()
+                
+                for obj in item['dates']:
+                    if obj.get('type') == 'onsaleDate':
+                        onsaleDate = obj['date']
+
+                comic = {
+                    'id': item['id'],
+                    'title': item['title'],
+                    'image': f"{item['thumbnail']['path']}.{item['thumbnail']['extension']}",
+                    'onsaleDate': onsaleDate
+                }
+
+                return jsonResponse(comic, 200)
+            
+            return jsonResponse({'message': 'Comic not found'}, 404)
+
+        return jsonResponse(response_json, status_code)
+
+    return jsonResponse({'error': "The 'title' and 'issueNumber' are needed to search for a specific comic"}, 409)
 
 #--------------------------------------------------------------
 
