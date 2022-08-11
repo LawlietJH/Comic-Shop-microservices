@@ -1,8 +1,6 @@
-from unittest import result
-from flask import request, make_response, jsonify
+from flask import make_response, jsonify
 from config import createApp
 import requests
-import json
 import os
 
 app = createApp()
