@@ -1,8 +1,7 @@
 from flask import request, make_response, jsonify
 from config import createApp
 from tokens import loginRequired
-from db import getToken, getUser, addUser, loginUser
-import os
+from db import getUser, addUser, loginUser
 
 app = createApp()
 
@@ -42,7 +41,7 @@ def createUser():
         error_response['age'] = 'This field is required'
 
     if error_response:
-        return jsonResponse(error_response, 409)
+        return jsonResponse(error_response, 400)
     
     response = addUser(username, password, first_name, last_name, age)
     

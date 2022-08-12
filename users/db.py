@@ -1,18 +1,26 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.local import LocalProxy
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 from flask import current_app
 from jwt import encode as jwt_encode, decode as jwt_decode
 from jwt import exceptions as jwt_exceptions
+import time
 import os
+
 
 #==================================================================
 
 def getDB():
     
     URI = current_app.config['MONGO_URI']
-    client = MongoClient(URI)
-
+    while True:
+        try:
+            client = MongoClient(URI)
+            break
+        except :
+            print('Log: Trying to connect to the database...')
+            time.sleep(2)
     return client.ComicShop
 
 # Use LocalProxy to read the global db instance with just `db`
@@ -52,11 +60,6 @@ def validateToken(token):
 
 #==================================================================
 
-# def getUsers():
-#     collUsers = db.Users
-#     data = collUsers.find()
-#     return data 
-
 def getUser(username):
     
     collUsers = db.Users
@@ -64,7 +67,9 @@ def getUser(username):
     user = collUsers.find_one({'username': username})
 
     if not user:
-        return {'data': {'message': 'Not found'}, 'code': 404}
+        return {'data': {'message': f'Username {repr(username)} not found'}, 'code': 400}
+
+    user.pop('password')
 
     return {'data': user, 'code': 200}
 
@@ -77,13 +82,13 @@ def addUser(username, password, first_name, last_name, age):
     if dup_user:
         return {
             'data': {'mesage': f'Username {repr(username)} already exists'},
-            'code': 409
+            'code': 400
         }
 
     user = {
         'data': {
             'username': username,
-            'password': password,
+            'password': generate_password_hash(password),
             'first_name': first_name,
             'last_name': last_name,
             'age': age
@@ -102,10 +107,12 @@ def loginUser(username, password):
 
     user = collUsers.find_one({'username': username})
 
-    if not user or not user.get('password') == password:
+    password_valid = check_password_hash(user.get('password'), password)
+
+    if not user or not password_valid:
         return {
             'data': {'mesage': f'The username or password are incorrect'},
-            'code': 409
+            'code': 400
         }
 
     expired = None
