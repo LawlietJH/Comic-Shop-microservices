@@ -4,27 +4,25 @@ Prueba técnica de microservicios en Python
 ## Contenido
 
 - [Comic-Shop-microservices](#comic-shop-microservices)
-  - [Contenido](#contenido)
-  - [Microservicios](#microservicios)
-    - [Microservicio: Search Comics](#microservicio-search-comics)
-    - [Microservicio: Users](#microservicio-users)
-    - [Microservicio: Add To Layaway](#microservicio-add-to-layaway)
-    - [Microservicio: Get Layaway List](#microservicio-get-layaway-list)
-  - [Docker](#docker)
+	- [Contenido](#contenido)
+	- [Microservicios](#microservicios)
+		- [Microservicio: Search Comics](#microservicio-search-comics)
+		- [Microservicio: Users](#microservicio-users)
+		- [Microservicio: Add To Layaway](#microservicio-add-to-layaway)
+		- [Microservicio: Get Layaway List](#microservicio-get-layaway-list)
+	- [Docker](#docker)
 
 ---
 
 ## Microservicios
 
 El proyecto cuenta con 4 microservicios, los cuales son REST API:
-- [Comic-Shop-microservices](#comic-shop-microservices)
-  - [Contenido](#contenido)
-  - [Microservicios](#microservicios)
-    - [Microservicio: Search Comics](#microservicio-search-comics)
-    - [Microservicio: Users](#microservicio-users)
-    - [Microservicio: Add To Layaway](#microservicio-add-to-layaway)
-    - [Microservicio: Get Layaway List](#microservicio-get-layaway-list)
-  - [Docker](#docker)
+* Microservicio: Search Comics
+* Microservicio: Users
+* Microservicio: Add To Layaway
+* Microservicio: Get Layaway List
+
+---
 
 ### Microservicio: Search Comics
 
@@ -130,6 +128,8 @@ Resultados de ejemplo:
 }
 ```
 
+---
+
 ### Microservicio: Users
 
 Este microservicio esta enfocado en la administración de usuarios y consta de 3 funcionalidades:
@@ -203,6 +203,8 @@ Resultados (200 OK):
 }
 ```
 
+---
+
 ### Microservicio: Add To Layaway
 
 Este microservicio esta enfocado en agregar Cómics a la lista de Apartados del Usuario y cuenta con 1 funcionalidad:
@@ -242,6 +244,8 @@ Resultados (200 OK):
 	"message": "Comic added successfully"
 }
 ```
+
+---
 
 ### Microservicio: Get Layaway List
 
@@ -382,6 +386,8 @@ Resultados (200 OK):
 ```
 
 Podemos comprobar que los datos son ordenados por la fecha (onsaleDate).
+
+---
 
 ## Docker
 
