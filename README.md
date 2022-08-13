@@ -387,6 +387,10 @@ Resultados (200 OK):
 
 Podemos comprobar que los datos son ordenados por la fecha (onsaleDate).
 
+Notas:
+* Tomé en cuenta que los archivos **.env** no deberían mostrarse por cuestiones de seguridad, pero por fines prácticos los deje (tomé en cuenta que no hay problema en mostrar los datos).
+* Las **Pruebas Unitarias** de cada microservicio las realicé mediante la librería (módulo) Unittest y estan alojadas en los archivos **test.py**.
+
 ---
 
 ## Docker
