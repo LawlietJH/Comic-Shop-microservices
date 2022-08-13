@@ -393,6 +393,15 @@ Podemos comprobar que los datos son ordenados por la fecha (onsaleDate).
 
 Para correr todas las imagenes:
 
+Docker Pull:
+
+	docker pull enylaine/comic-shop-search:latest
+	docker pull enylaine/comic-shop-users:latest
+	docker pull enylaine/comic-shop-addtolayaway:latest
+	docker pull enylaine/comic-shop-getlayawaylist:latest
+
+Docker Run:
+
     docker run -d -p 5000:5000 enylaine/comic-shop-search
     docker run -d -p 5001:5001 enylaine/comic-shop-users
     docker run -d -p 5002:5002 enylaine/comic-shop-addtolayaway
