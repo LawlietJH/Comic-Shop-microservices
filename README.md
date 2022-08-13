@@ -17,10 +17,10 @@ Prueba técnica de microservicios en Python
 ## Microservicios
 
 El proyecto cuenta con 4 microservicios los cuales son REST API:
-* Microservicio: Search Comics
-* Microservicio: Users
-* Microservicio: Add To Layaway
-* Microservicio: Get Layaway List
+* Microservicio: Search Comics (Puerto 5000)
+* Microservicio: Users (Puerto 5001)
+* Microservicio: Add To Layaway (Puerto 5002)
+* Microservicio: Get Layaway List (Puerto 5003)
 
 ---
 
