@@ -8,12 +8,12 @@ from jwt import exceptions as jwt_exceptions
 import time
 import os
 
-
 #==================================================================
 
 def getDB():
     
     URI = current_app.config['MONGO_URI']
+    
     while True:
         try:
             client = MongoClient(URI)
@@ -21,6 +21,7 @@ def getDB():
         except :
             print('Log: Trying to connect to the database...')
             time.sleep(2)
+    
     return client.ComicShop
 
 # Use LocalProxy to read the global db instance with just `db`

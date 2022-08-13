@@ -1,16 +1,18 @@
-from flask import request, make_response, jsonify
+from flask import Blueprint, request, make_response, jsonify
 from config import createApp
 from tokens import loginRequired
 from db import getUser, addUser, loginUser
 
 app = createApp()
 
+api = Blueprint('users', __name__, url_prefix='/api/v1')
+
 jsonResponse = lambda data, code: make_response(jsonify(data), code)
 
 #--------------------------------------------------------------
 # Rutas:
 
-@app.route('/users/')
+@api.route('/users/')
 @loginRequired(get_username=True)
 def getUserInfo(username):
     
@@ -18,7 +20,7 @@ def getUserInfo(username):
     
     return jsonResponse(response['data'], response['code'])
 
-@app.route('/users/', methods=['POST'])
+@api.route('/users/', methods=['POST'])
 def createUser():
     
     username = request.json.get('username')
@@ -47,7 +49,7 @@ def createUser():
     
     return jsonResponse(response['data'], response['code'])
 
-@app.route('/users/login/', methods=['POST'])
+@api.route('/users/login/', methods=['POST'])
 def login():
 
     username = request.json.get('username')
@@ -67,8 +69,11 @@ def login():
     
     return jsonResponse(response['data'], response['code'])
 
+
+app.register_blueprint(api)
+
 #--------------------------------------------------------------
 
 if __name__ == '__main__':
 
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)

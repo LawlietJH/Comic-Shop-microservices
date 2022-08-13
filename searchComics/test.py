@@ -3,7 +3,7 @@ import requests
 
 class APITest(unittest.TestCase):
 
-    API_URL = 'http://localhost:5000'
+    API_URL = 'http://localhost:5000/api/v1'
     
     def test_showCharacters(self):
         # Prueba obtener la lista completa de Personajes:

@@ -7,7 +7,7 @@ randomString = lambda length: ''.join(choices(ascii_letters, k=length))
 
 class APITest(unittest.TestCase):
 
-    API_URL = 'http://localhost:5000'
+    API_URL = 'http://localhost:5001/api/v1'
     username = None
     password = None
     token = None

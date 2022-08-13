@@ -1,9 +1,11 @@
-from flask import make_response, jsonify
+from flask import Blueprint, make_response, jsonify
 from config import createApp
 import requests
 import os
 
 app = createApp()
+
+api = Blueprint('searchComics', __name__, url_prefix='/api/v1')
 
 jsonResponse = lambda data, code: make_response(jsonify(data), code)
 characters_list = None
@@ -12,6 +14,12 @@ characters_list = None
 # Utilidades:
 
 def getURI(page=0, uri_type='characters'):
+
+    timestamp = int(time())
+    input_string = str(timestamp) + self.PRIVATE_KEY + self.PUBLIC_KEY
+    hash = md5(input_string.encode("utf-8")).hexdigest()
+
+
     API_URL  = 'http://gateway.marvel.com/v1/public'
     API_HASH = os.getenv('MARVEL_API_HASH')
     API_KEY  = os.getenv('MARVEL_API_KEY')
@@ -222,7 +230,7 @@ def getComics(words):
 #--------------------------------------------------------------
 # Rutas:
 
-@app.route('/searchComics/')
+@api.route('/searchComics/')
 def showCharacters():
 
     global characters_list
@@ -233,7 +241,7 @@ def showCharacters():
 
     return jsonResponse(characters_list, 200)
 
-@app.route('/searchComics/<string:words>')
+@api.route('/searchComics/<string:words>')
 def searchComicsAndCharacters(words):
 
     characters = getCharacters(words)
@@ -256,7 +264,7 @@ def searchComicsAndCharacters(words):
 
     return jsonResponse(data, 200)
 
-@app.route('/searchComics/character/<string:character_name>')
+@api.route('/searchComics/character/<string:character_name>')
 def getCharacter(character_name):
 
     if character_name:
@@ -290,7 +298,7 @@ def getCharacter(character_name):
     
     return jsonResponse({'message': 'error'}, 400)
 
-@app.route('/searchComics/comic/<string:comic_title>/<int:issue_number>')
+@api.route('/searchComics/comic/<string:comic_title>/<int:issue_number>')
 def getComic(comic_title, issue_number):
 
     if comic_title and issue_number:
@@ -327,6 +335,9 @@ def getComic(comic_title, issue_number):
         return jsonResponse(response_json, status_code)
 
     return jsonResponse({'error': "The 'title' and 'issueNumber' are needed to search for a specific comic"}, 409)
+
+
+app.register_blueprint(api)
 
 #--------------------------------------------------------------
 

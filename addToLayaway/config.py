@@ -2,7 +2,7 @@ from flask.json import JSONEncoder
 from flask_cors import CORS
 from datetime import datetime
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, Blueprint
 from bson import json_util, ObjectId
 import os
 
