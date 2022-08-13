@@ -1,6 +1,8 @@
 from flask import Blueprint, make_response, jsonify
 from config import createApp
 import requests
+import hashlib
+import time
 import os
 
 app = createApp()
@@ -15,15 +17,14 @@ characters_list = None
 
 def getURI(page=0, uri_type='characters'):
 
-    timestamp = int(time())
-    input_string = str(timestamp) + self.PRIVATE_KEY + self.PUBLIC_KEY
-    hash = md5(input_string.encode("utf-8")).hexdigest()
-
-
+    API_PUB_KEY  = os.getenv('MARVEL_API_PUBLIC_KEY')
+    API_PRIV_KEY  = os.getenv('MARVEL_API_PRIVATE_KEY')
+    timestamp = int(time.time())
+    input_string = str(timestamp) + API_PRIV_KEY + API_PUB_KEY
+    API_HASH = hashlib.md5(input_string.encode("utf-8")).hexdigest()
+    
     API_URL  = 'http://gateway.marvel.com/v1/public'
-    API_HASH = os.getenv('MARVEL_API_HASH')
-    API_KEY  = os.getenv('MARVEL_API_KEY')
-    API_PARAMS = f'ts=1&apikey={API_KEY}&hash={API_HASH}'
+    API_PARAMS = f'ts={timestamp}&apikey={API_PUB_KEY}&hash={API_HASH}'
     URI_characters = f'{API_URL}/characters?{API_PARAMS}'
     URI_comics = f'{API_URL}/comics?{API_PARAMS}&format=comic&formatType=comic&noVariants=true'
     limit = '&limit=100&offset={}'
