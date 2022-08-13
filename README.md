@@ -330,7 +330,7 @@ Resultados (200 OK):
 }
 ```
 
-Filtrar por orden alfabético (title):
+Filtrar por personajes (characters):
 
 * GET: **/api/v1/getLayawayList/characters**
 * Headers: **Authorization: Bearer \<Token\>**
