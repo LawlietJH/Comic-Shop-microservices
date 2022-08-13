@@ -16,7 +16,7 @@ Prueba técnica de microservicios en Python
 
 ## Microservicios
 
-El proyecto cuenta con 4 microservicios, los cuales son REST API:
+El proyecto cuenta con 4 microservicios los cuales son REST API:
 * Microservicio: Search Comics
 * Microservicio: Users
 * Microservicio: Add To Layaway
@@ -26,9 +26,9 @@ El proyecto cuenta con 4 microservicios, los cuales son REST API:
 
 ### Microservicio: Search Comics
 
-Este microservicio esta enfocado en la busqueda de Cómics. Es alimentado por la API de Marvel y consta de 4 funcionalidades:
+Este microservicio está enfocado en la busqueda de Cómics. Es alimentado por la API de Marvel y consta de 4 funcionalidades:
 * Listado Completo de Personajes.
-* Busqueda por Palabra (Cómics y Personajes).
+* Búsqueda por Palabra (Cómics y Personajes).
 * Obtención de Personaje por Nombre en específico.
 * Obtención de Cómic por Título en específico.
 
@@ -39,7 +39,10 @@ Detalles de cada punto:
 
 Al no tener ningún criterio de búsqueda, se obtienen todos los personajes existentes.
 
-Resultados:
+Resultados (200 OK): 
+
+Nota: Puede tardar varios segundos la primera vez.
+
 ```json
 {
 	"characters": [
@@ -69,7 +72,7 @@ Entrega todos los *Cómics* y *Personajes* que comiencen por esa palabra.
 Ejemplo:
 * GET: **/api/v1/searchComics/Deadpool**
 
-Resultados de ejemplo:
+Resultados (200 OK):
 ```json
 {
 	"characters": [
@@ -96,13 +99,13 @@ Resultados de ejemplo:
 
 Se entrega los Personajes y los Cómics por separado, y un contador total de elementos.
 
-3\. Filtro por Nombre de Personaje (nombre especifico):
+3\. Filtro por Nombre de Personaje (nombre específico):
 * **/api/v1/searchComics/character/\<Nombre\>**
 
 Ejemplo:
 * GET: **/api/v1/searchComics/character/Spider-Man (Peter Parker)**
 
-Resultados de ejemplo:
+Resultados (200 OK):
 ```json
 {
 	"appearances": 4154,
@@ -112,13 +115,13 @@ Resultados de ejemplo:
 }
 ```
 
-4\. Filtro por *Título* (título especifico y número de Cómic):
+4\. Filtro por *Título* (título específico y número de Cómic):
 * **/api/v1/searchComics/character/\<Título\>/\<Número\>**
 
 Ejemplo:
 * GET: **/api/v1/searchComics/comic/Spider-Man/1**
 
-Resultados de ejemplo:
+Resultados (200 OK):
 ```json
 {
 	"id": 10767,
@@ -132,7 +135,7 @@ Resultados de ejemplo:
 
 ### Microservicio: Users
 
-Este microservicio esta enfocado en la administración de usuarios y consta de 3 funcionalidades:
+Este microservicio está enfocado en la administración de usuarios y consta de 3 funcionalidades:
 
 * Crear un Usuario.
 * Login: Obtiene un Token e información del Usuario.
@@ -207,7 +210,7 @@ Resultados (200 OK):
 
 ### Microservicio: Add To Layaway
 
-Este microservicio esta enfocado en agregar Cómics a la lista de Apartados del Usuario y cuenta con 1 funcionalidad:
+Este microservicio está enfocado en agregar Cómics a la lista de Apartados del Usuario y cuenta con 1 funcionalidad:
 
 * Agregar un Cómic a la Lista de Apartados.
 
@@ -215,7 +218,7 @@ Esta funcionalidad requiere un Token y un JSON que contenga el ID del Cómic que
 
 Ejemplo:
 
-Agregaré el Cómic de Spider-Man #1 con id '10767' (obtenido en el ejemplo de busqueda de un cómic en específico).
+Agregaré el Cómic de Spider-Man #1 con ID '10767' (obtenido en el ejemplo de busqueda de un cómic en específico).
 
 * POST: **/api/v1/addToLayaway/**
 * Headers: **Authorization: Bearer \<Token\>**
@@ -249,12 +252,12 @@ Resultados (200 OK):
 
 ### Microservicio: Get Layaway List
 
-Este microservicio esta enfocado en la obtención de todos los Cómics Apartados por el Usuario y consta de 2 Funcionalidades:
+Este microservicio está enfocado en la obtención de todos los Cómics Apartados por el Usuario y consta de 2 Funcionalidades:
 
 * Listado de todos los Apartados por el Usuario en orden de inserción.
-* Listado con ordenamiento por Orden alfabético (título), Pesonajes o Fecha.
+* Listado con ordenamiento por Orden alfabético (título), personajes o fecha.
 
-1\. El listado sin filtro, mostrará todos los apartados en el orden de inserción de los datos.
+1\. El listado, sin filtro, mostrará todos los apartados en el orden de inserción de los datos.
 
 Ejemplo:
 
@@ -389,7 +392,7 @@ Podemos comprobar que los datos son ordenados por la fecha (onsaleDate).
 
 Notas:
 * Tomé en cuenta que los archivos **.env** no deberían mostrarse por cuestiones de seguridad, pero por fines prácticos los deje (tomé en cuenta que no hay problema en mostrar los datos).
-* Las **Pruebas Unitarias** de cada microservicio las realicé mediante la librería (módulo) Unittest y estan alojadas en los archivos **test.py**.
+* Las **Pruebas Unitarias** de cada microservicio las realicé mediante la librería (módulo) Unittest y están alojadas en los archivos **test.py**.
 
 ---
 
@@ -413,5 +416,5 @@ Docker Run:
 
 Notas:
 
-* Con el parametro **-d** (*--detach*) ejecuta el contenedor en segundo plano e imprime el ID del contenedor.
-* Cambiando el parametro *-d* por el parametro **-it** (*--interactive* y *--tty*) mantiene el STDIN abierto incluso si no está conectada y se le asigna una pseudo-TTY, de esta forma se puede mostrar los logs y respuestas del servidor. Ejemplo: **docker run -it -p 5000:5000 enylaine/comic-shop-search**
+* Con el parámetro **-d** (*--detach*) ejecuta el contenedor en segundo plano e imprime el ID del contenedor.
+* Cambiando el parámetro *-d* por el parámetro **-it** (*--interactive* y *--tty*) mantiene el STDIN abierto incluso si no está conectada y se le asigna una pseudo-TTY, de esta forma se puede mostrar los logs y respuestas del servidor. Ejemplo: **docker run -it -p 5000:5000 enylaine/comic-shop-search**
