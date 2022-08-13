@@ -406,3 +406,8 @@ Docker Run:
     docker run -d -p 5001:5001 enylaine/comic-shop-users
     docker run -d -p 5002:5002 enylaine/comic-shop-addtolayaway
     docker run -d -p 5003:5003 enylaine/comic-shop-getlayawaylist
+
+Notas:
+
+* Con el parametro **-d** (*--detach*) ejecuta el contenedor en segundo plano e imprime el ID del contenedor.
+* Cambiando el parametro *-d* por el parametro **-it** (*--interactive* y *--tty*) mantiene el STDIN abierto incluso si no está conectada y se le asigna una pseudo-TTY, de esta forma se puede mostrar los logs y respuestas del servidor. Ejemplo: **docker run -it -p 5000:5000 enylaine/comic-shop-search**
