@@ -142,6 +142,7 @@ def loginUser(username, password):
         'data': {
             'id': user.get('_id'),
             'name': fullname,
+            'username': username,
             'age': user.get('age'),
             'token': token
         },

@@ -51,11 +51,20 @@ def getComicList(username, filter=None):
 
     layaway = user.get('layaway')
 
+    def sortKeyCharacter(element):
+        element = element['characters']
+        if len(element) > 0:
+            return element[0]['name']
+        else:
+            return element['title']
+
     if filter:
-        sort = 'title'
         if filter == 'date':
-            sort = 'onsaleDate'
-        layaway.sort(key=lambda x: x[sort])
+            layaway.sort(key=lambda x: x['onsaleDate'])
+        elif filter in ['character', 'characters']:
+            layaway.sort(key=sortKeyCharacter)
+        else:
+            layaway.sort(key=lambda x: x['title'])
     
     response = {
         'data': {'layaway': layaway, 'total': len(layaway)},

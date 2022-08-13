@@ -32,7 +32,7 @@ class APITest(unittest.TestCase):
         r = requests.post(URL, json=content, headers=headers)
         self.assertEqual(r.status_code, 200)
     
-    def test_getLayawayList(self):
+    def test_getSortedLayawayList(self):
         # Prueba Agregar un Comic a los Apartados del Usuario:
         #--------------------------------------
         # Obtiene el Token de un Usuario:
@@ -40,11 +40,7 @@ class APITest(unittest.TestCase):
         #--------------------------------------
         URL = self.API_URL_LAYAWAY_LIST + '/getLayawayList/title'
         headers = {'Authorization': f'Bearer {token}'}
-        content = {
-            "title": choice(['Spider-Man', 'Deadpool', 'Black Widow']),
-            "number": randint(1, 20)
-        }
-        r = requests.post(URL, json=content, headers=headers)
+        r = requests.post(URL, headers=headers)
         self.assertEqual(r.status_code, 200)
 
 if __name__ == '__main__':
